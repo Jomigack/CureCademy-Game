@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = MedicalGame
-build_property.ProjectDir = C:\Users\Jgatta\Source\Repos\Jomigack\C-Sharp\PersonalProjects\MedicalGame\
+build_property.ProjectDir = C:\Users\Jgatta\Source\Repos\Jomigack\CureCademy-Game\MedicalGame\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MedicalGame")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e449ea368edf1b953ed3d013812f00809b04a157")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2140b4261a0794b3b457cc2f77b1e13895956da5")]
 [assembly: System.Reflection.AssemblyProductAttribute("MedicalGame")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MedicalGame")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
