@@ -11,7 +11,7 @@ I can not gurantee that I will keep updating this project, however I will try my
   -Added core mechanics to the game to be added to later on  
 
 ## Version 1.1: The Pneumonia Update
-  -Added a new Illness to test for: Pnerumonia  
+  -Added a new Illness to test for: Pneumonia  
   -Added 1 new Symptom 'Cough' and a corresponding test in the 'ask' test  
   -Added some game stats to be displayed once the user is done with the program  
   -Cleaned some code up using extra methods to be blue highlighted text instead of doing it each time  
