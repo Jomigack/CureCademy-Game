@@ -6,11 +6,13 @@ I can not gurantee that I will keep updating this project, however I will try my
 
 # Update History
 ## Version 1.0:
+  -1/11/24 As one of the first few commits (I was working on this in a previous repository)  
   -**Added 3 Illnesses** to test for: Cold, Flu, and Bronchitis  
   -**Added 5 tests** for symptoms of the 3  
   -**Added core mechanics** to the game to be added to later on  
 
 ## Version 1.1: The Pneumonia Update
+  -11/11/24 on Designated Commit  
   -**Added** a new Illness to test for: **Pneumonia**  
   -**Added** 1 new Symptom 'Cough' and a corresponding test in the 'ask' test  
   -**Added some game stats** to be displayed once the user is done with the program  
