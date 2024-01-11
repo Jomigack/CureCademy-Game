@@ -1,3 +1,5 @@
+using System.Xml.Schema;
+
 namespace MedicalGame
 {
 
@@ -6,10 +8,12 @@ namespace MedicalGame
        / __| _  _  _ _  ___  / __| __ _  __| | ___  _ __  | || |
       | (__ | || || '_|/ -_)| (__ / _` |/ _` |/ -_)| '  \  \_. |
        \___| \_._||_|  \___| \___|\__/_|\__/_|\___||_|_|_| |__/ 
-        __   __         _             __   
-        \ \ / /        / |           /  \  
-         \   /         | |    _     | () | 
-          \_/          |_|   (_)     \__/  
+        __   __   _             _   
+        \ \ / /  / |           / |  
+         \   /   | |    _      | |  
+          \_/    |_|   (_)     |_|  
+            1.1 Update: Pneumonia 
+
     Created by John Gatta Last updated 1/11/24
     Check my Github for updates! @Jomigack
 
@@ -33,7 +37,8 @@ namespace MedicalGame
             {
                     /*Cold*/        new Illnesses("Cold", new string[] { "Muscle and body aches", "Runny nose", "Sore throat"}),//For the array, you must specify new string[] in order for it to pass through
                     /*flu*/         new Illnesses("Flu", new string[] { "Fever", "Sore throat", "Muscle and body aches" }),
-                    /*Bronchitis*/  new Illnesses("Bronchitis", new string[] { "Shortness of breath", "Chest discomfort", "Mucus" })
+                    /*Bronchitis*/  new Illnesses("Bronchitis", new string[] { "Shortness of breath", "Chest discomfort", "Mucus" }),
+                    /*Pneumonia*/   new Illnesses("Pneumonia", new string[] { "Chest discomfort", "Fever", "Cough"})
                 };
 
             //Adding the objects into the object list:
@@ -42,6 +47,7 @@ namespace MedicalGame
 
             bool playing = true;
             int patientCount = 0;
+            int amtofTestsDone = 0;
             while (playing)
             {
                 bool patientDone = false;
@@ -71,7 +77,7 @@ namespace MedicalGame
                     //Storing all possible test tools/ labs
                     string[] testTools = { "Esc", "Ask", "Thermometer", "Tongue Depressor", "Breathing Test", "Endoscope" };
                     string[] testDesc = { "Quits out of the Test command menu",
-                            "Ask the patient what their current symptoms are (works with low-tier symptoms, has a chance of failure)",
+                            "Ask the patient what their current symptoms are (works with low-tier symptoms, has a chance of failure if asking for general symptoms)",
                             "See what their Tempurature is (Used to see if a fever is probable or not)",
                             "Allows you to examine the parients oral cavity",
                             "A short test that evaluates how deep the patient can breathe",
@@ -92,9 +98,7 @@ namespace MedicalGame
                                 Console.WriteLine($"Here is a list of all the possible tests you can do (You have {testsLeft} tests left before you must conclude the diagnosis):");
                                 for (int i = 0; i < testTools.Length; i++)
                                 {
-                                    Console.BackgroundColor = ConsoleColor.Blue;
-                                    Console.WriteLine(testTools[i]);
-                                    Console.BackgroundColor = ConsoleColor.Black;
+                                    blueText(testTools[i]);
                                     Console.WriteLine(testDesc[i]);
 
                                 }
@@ -111,16 +115,24 @@ namespace MedicalGame
                                     }
                                     else if (userTest == "ask") //Ask Command
                                     {
+                                        amtofTestsDone++;
                                         Console.Clear();
-                                        Console.WriteLine("What do you want to ask the patient?" +
-                                            "\nif they have any muscle aches ('aches')" +
-                                            "\nOr what symptoms they're experiencing ('symp')");
+                                        Console.WriteLine("What do you want to ask the patient?");
+                                        string[] askCmds = {"Aches", "Cough" ,"Symptoms"};
+                                        string[] askDesc = {"Ask the patient if they have been experiencing muscle or body aches",
+                                            "Ask the patient if they have been coughing recently",
+                                            "Ask the patient what general sympotoms they are experiencing (chance of failure)"};
+                                        for(int i = 0; i < askCmds.Length; i++) //Prints all possible ask commands from the array
+                                        {
+                                            blueText(askCmds[i]);
+                                            Console.WriteLine($" {askDesc[i]}");
+                                        }
                                         string userAsk = Console.ReadLine().ToLower();
                                         bool isAsk = true;
                                         do
                                         {
                                             Console.Clear();
-                                            if (userAsk == "symp")
+                                            if (userAsk == "symptoms")
                                             {
                                                 Random patientTruthGenerator = new Random(); //A random var to see if the user is correct about their own symptoms or not
                                                 int patientTruth = patientTruthGenerator.Next(1, 101);
@@ -171,6 +183,25 @@ namespace MedicalGame
                                                 underGoingTest = false;
                                                 break;
                                             }
+                                            else if (userAsk == "cough")
+                                            {
+                                                //Add code here so when the user has muscle or body aches 
+                                                Console.WriteLine("You ask the patient if they have been coughing");
+                                                bool isAches = getSymptom(selectedIllness, "Cough");
+                                                if (isAches)
+                                                {
+                                                    Console.WriteLine("The patient does state that they have been coughing recently");
+                                                    symptomListChecker(knownSymptoms, "Cough");
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine("The patient states that they have not been coughing recently.");
+                                                }
+
+                                                isAsk = false;
+                                                underGoingTest = false;
+                                                break;
+                                            }
                                             else
                                             {
                                                
@@ -185,6 +216,7 @@ namespace MedicalGame
                                     }
                                     else if (userTest == "thermometer") // Thermometer detects fever
                                     {
+                                        amtofTestsDone++;
                                         Console.Clear();
                                         Console.WriteLine("You take the patients temperature:");
                                         bool isFever = getSymptom(selectedIllness, "Fever");
@@ -207,6 +239,7 @@ namespace MedicalGame
                                     }
                                     else if (userTest == "tongue depressor") //Detects Sore throat, mucus
                                     {
+                                        amtofTestsDone++;
                                         Console.Clear();
                                         Console.WriteLine("You decide to use the tongue depressor on the patient, say 'ahh!'");
                                         bool isMucus = getSymptom(selectedIllness, "Mucus");
@@ -236,6 +269,7 @@ namespace MedicalGame
                                     }
                                     else if (userTest == "breathing test") //Detects shortness of breath, and chest discomfort, use code as base if a tool tests for more than one symptom
                                     {
+                                        amtofTestsDone++;
                                         Console.Clear();
                                         bool isShortBreath = getSymptom(selectedIllness, "Shortness of breath");
                                         bool isChestDiscomfort = getSymptom(selectedIllness, "Chest discomfort");
@@ -261,6 +295,7 @@ namespace MedicalGame
                                     }
                                     else if (userTest == "endoscope") //Detects Runny Nose, write next
                                     {
+                                        amtofTestsDone++;
                                         Console.Clear();
                                         Console.WriteLine("You decide to use the endoscope to inspect the inside of the patient's nose.");
                                         bool isRunny = getSymptom(selectedIllness, "Runny nose");
@@ -272,15 +307,15 @@ namespace MedicalGame
                                     }
                                     else
                                     {
+                                        Console.Clear();
                                         Console.WriteLine("Invalid Tool, here is the list of all the test tools:");
                                         for (int i = 0; i < testTools.Length; i++)
                                         {
-                                            Console.BackgroundColor = ConsoleColor.Blue;
-                                            Console.WriteLine(testTools[i]);
-                                            Console.BackgroundColor = ConsoleColor.Black;
+                                            blueText(testTools[i]);
                                             Console.WriteLine(testDesc[i]);
 
                                         }
+                                        userTest = Console.ReadLine().ToLower();
                                     }
                                     if (patientDone)
                                     {
@@ -331,7 +366,9 @@ namespace MedicalGame
                                             else if (userCont == "n")
                                             {
                                                 Console.WriteLine("Okay, well, thanks for playing!");
+                                                
                                                 playing = false;
+                                                printGameStats(patientCount, amtofTestsDone);
                                                 Environment.Exit(0); //Stops application
                                             }
                                             else
@@ -348,6 +385,7 @@ namespace MedicalGame
                                     else
                                     {
                                         Console.WriteLine($"That's incorrect! The correct illness was {selectedIllness.illName}! You lose your doctor license and are fired!");
+                                        printGameStats(patientCount, amtofTestsDone);
                                         Environment.Exit(0); //Stops application
                                     }
 
@@ -377,7 +415,8 @@ namespace MedicalGame
                                 int illCount = 0;
                                 foreach (var illness in illnessCatalouge) //Loops through all illnesses in the 2D array, every 3rd one it ask if they need to continue or not
                                 {
-                                    Console.WriteLine($"Illness: {illness.illName}");
+                                    Console.WriteLine($"Illness:");
+                                    blueText($"  {illness.illName}");
                                     Console.WriteLine("Symptoms:");
 
                                     // Using another foreach loop to iterate through the symptoms array
@@ -386,7 +425,7 @@ namespace MedicalGame
                                         Console.WriteLine($"- {symptom}");
                                     }
                                     illCount++;
-                                    if (illCount % 3 == 0)
+                                    if (illCount % 3 == 0 || illCount == illnessCatalouge.Length) //Asks the user for every 3rd illness or last one printed, if they want to exit this or not
                                     {
                                         bool contorNot = true; //For flexibility so the user can take as much time as needed
                                         while (contorNot)
@@ -403,7 +442,9 @@ namespace MedicalGame
                                             }
                                             else if (contLoop == "cont")
                                             {
+                                                Console.Clear();
                                                 contorNot = false;
+                                                break;
 
                                             }
                                             else
@@ -488,6 +529,20 @@ namespace MedicalGame
                     }
                 }
                 return false;
+            }
+
+            static void printGameStats(int patientsWorkedOn, int totalTests)
+            {
+                blueText("Amount of patients worked on:");
+                Console.WriteLine(patientsWorkedOn);
+                blueText("Total amount of tests conducted:");
+                Console.WriteLine(totalTests);
+            }
+            static void blueText(string input) //Prints the background of the text to be blue
+            {
+                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.WriteLine(input);
+                Console.BackgroundColor = ConsoleColor.Black;
             }
         }
 
