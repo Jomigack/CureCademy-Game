@@ -4,19 +4,21 @@ namespace MedicalGame
 {
 
     /*
-     *   ___                   ___           _              _  _ 
-       / __| _  _  _ _  ___  / __| __ _  __| | ___  _ __  | || |
-      | (__ | || || '_|/ -_)| (__ / _` |/ _` |/ -_)| '  \  \_. |
-       \___| \_._||_|  \___| \___|\__/_|\__/_|\___||_|_|_| |__/ 
-        __   __   _             _   
-        \ \ / /  / |           / |  
-         \   /   | |    _      | |  
-          \_/    |_|   (_)     |_|  
-            1.1 Update: Pneumonia 
+     *  ___                      ___           _              _  _ 
+       / __| _  _  _ _  ___     / __| __ _  __| | ___  _ __  | || |
+      | (__ | || || '_|/ -_)   | (__ / _` |/ _` |/ -_)| '  \  \_. |
+       \___| \_._||_|  \___|    \___|\__/_|\__/_|\___||_|_|_| |__/ 
+           __   __   _             ___  
+           \ \ / /  / |           |_  ) 
+            \   /   | |    _       / /  
+             \_/    |_|   (_)     /___| 
 
-    Created by John Gatta Last updated 1/11/24
-    Check my Github for updates! @Jomigack
 
+    1.2 Update: Rhinitis and Pharyngitis
+
+    Last updated 1/12/24
+    Check my Github for updates! @ Jomigack
+    Repository Link: https://github.com/Jomigack/CureCademy-Game
 
      What is this game about?
     An endless Game where the Patient that the user needs to cure has a set of symptoms that correlate to an illness
@@ -38,7 +40,9 @@ namespace MedicalGame
                     /*Cold*/        new Illnesses("Cold", new string[] { "Muscle and body aches", "Runny nose", "Sore throat"}),//For the array, you must specify new string[] in order for it to pass through
                     /*flu*/         new Illnesses("Flu", new string[] { "Fever", "Sore throat", "Muscle and body aches" }),
                     /*Bronchitis*/  new Illnesses("Bronchitis", new string[] { "Shortness of breath", "Chest discomfort", "Mucus" }),
-                    /*Pneumonia*/   new Illnesses("Pneumonia", new string[] { "Chest discomfort", "Fever", "Cough"})
+                    /*Pneumonia*/   new Illnesses("Pneumonia", new string[] { "Chest discomfort", "Fever", "Cough"}),
+                    /*Pharyngitis*/ new Illnesses("Pharyngitis", new string[] {"Fever", "Cough", "Sore throat"}),
+                    /*Rhinitis*/    new Illnesses("Rhinitis", new string[] {"Runny nose", "Mucus", "Sneezing"})
                 };
 
             //Adding the objects into the object list:
@@ -60,7 +64,7 @@ namespace MedicalGame
                 int chosenIllness = randomIndex.Next(illnessList.Count); //Grabs a random index from a value stores in the list
                 Illnesses selectedIllness = illnessList[chosenIllness]; //Creates an object hat holds the selected illness's values
                                                                         //DELETE UP TO THE FOREACH SYMPTOM BEFORE GAME IS COMPLETE< THIS IS TO HELP DEBUG!
-               /* Console.WriteLine($"Selected Illness: {selectedIllness.illName}");
+                /*Console.WriteLine($"Selected Illness: {selectedIllness.illName}");
                 Console.WriteLine("Symptoms:");
 
                 foreach (string symptom in selectedIllness.symptomList)
@@ -113,7 +117,7 @@ namespace MedicalGame
                                         underGoingTest = false;
                                         break;
                                     }
-                                    else if (userTest == "ask") //Ask Command
+                                    else if (userTest == "ask") //Ask Command, detects colds and muscle aches
                                     {
                                         amtofTestsDone++;
                                         Console.Clear();
@@ -213,6 +217,7 @@ namespace MedicalGame
                                         } while (isAsk);
 
                                         testsLeft--;
+                                        break;
                                     }
                                     else if (userTest == "thermometer") // Thermometer detects fever
                                     {
@@ -293,17 +298,25 @@ namespace MedicalGame
                                         testsLeft--;
                                         break;
                                     }
-                                    else if (userTest == "endoscope") //Detects Runny Nose, write next
+                                    else if (userTest == "endoscope") //Detects Runny Nose, Sneezing
                                     {
                                         amtofTestsDone++;
                                         Console.Clear();
                                         Console.WriteLine("You decide to use the endoscope to inspect the inside of the patient's nose.");
                                         bool isRunny = getSymptom(selectedIllness, "Runny nose");
+                                        bool isSneezing = getSymptom(selectedIllness, "Sneezing");
                                         if (isRunny)
                                         {
                                             Console.WriteLine("You inspect the patients nostrils and see that they have a runny nose");
                                             symptomListChecker(knownSymptoms, "Runny nose");
                                         }
+                                        if (isSneezing)
+                                        {
+                                            Console.WriteLine("While inspecting the patient's nose, he sneezes in the middle of the inspection, you note this as them sneezing");
+                                            symptomListChecker(knownSymptoms, "Sneezing");
+                                        }
+                                        testsLeft--;
+                                        break;
                                     }
                                     else
                                     {
@@ -337,9 +350,9 @@ namespace MedicalGame
                                 bool isConclude = true;
                                 do
                                 {
+                                    Console.Clear();
                                     if (userGuess == "esc")
                                     {
-                                        Console.Clear();
                                         printCommands();
                                         userInput = Console.ReadLine().ToLower();
                                         isConclude = false;
@@ -347,7 +360,7 @@ namespace MedicalGame
                                     }
                                     else if (userGuess == selectedIllness.illName.ToLower())
                                     {
-                                        Console.Clear();
+                                        
                                         Console.WriteLine($"Your diagnosis was correct! The patient has {selectedIllness.illName}! You saved someone and you should be happy about that!");
                                         Console.WriteLine("Do you want to continue diagnosing patients?\n'y' or 'n'");
                                         string userCont = Console.ReadLine().ToLower();
@@ -506,10 +519,10 @@ namespace MedicalGame
                 string dots = ".";
                 for (int i = 0; i < 3; i++)
                 {
-                    Thread.Sleep(1500);
+                    Thread.Sleep(1250);
                     Console.Write(dots);
                 }
-                Thread.Sleep(1500);
+                Thread.Sleep(1250);
                 Console.Clear();
 
             }
@@ -517,9 +530,19 @@ namespace MedicalGame
             static bool getSymptom(Illnesses selectedIllness, string illnessToBeChecked) //Called to assign a t/f value to a bool if the patient has that symptom or not
                                                                                          //It does this by checking if the symptom is the same as the one being checked in the method
             {
+                string[] noDotIllnesses = { "Sore throat", "Chest discomfort", "Sneezing" };
+                bool isnoDot = false;
+                for(int i = 0; i < noDotIllnesses.Length; i++) //Checks out of the symptoms that shouldnt show dots and if it is that symptom it doesnt show dots bc of the bool
+                {
+                    if (illnessToBeChecked == noDotIllnesses[i]) //Add test symptoms tested multiple times in one test here so it doesnt take too long to get results
+                    {
+                        isnoDot = true;
+                        break;
+                    }
+                }
                 foreach (string symptom in selectedIllness.symptomList) //Checks to see if the user has a fever symptom to act accordingly
                 {
-                    if (illnessToBeChecked != "Sore Throat" || illnessToBeChecked != "Chest discomfort") //Add test symptoms tested multiple times in one test here so it doesnt take too long to get results
+                    if (!isnoDot) //Add test symptoms tested multiple times in one test here so it doesnt take too long to get results
                     {
                         waitingDots();
                     }
