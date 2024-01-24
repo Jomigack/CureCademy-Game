@@ -8,10 +8,10 @@ namespace MedicalGame
        / __| _  _  _ _  ___     / __| __ _  __| | ___  _ __  | || |
       | (__ | || || '_|/ -_)   | (__ / _` |/ _` |/ -_)| '  \  \_. |
        \___| \_._||_|  \___|    \___|\__/_|\__/_|\___||_|_|_| |__/ 
-           __   __   _             ___  
-           \ \ / /  / |           |_  ) 
-            \   /   | |    _       / /  
-             \_/    |_|   (_)     /___| 
+            __   __   _             ___            _   
+            \ \ / /  / |           |_  )          / |  
+             \   /   | |    _       / /    _      | |  
+              \_/    |_|   (_)     /___|  (_)     |_|   
 
 
     1.2 Update: Rhinitis and Pharyngitis
@@ -42,12 +42,12 @@ namespace MedicalGame
                     /*Bronchitis*/  new Illnesses("Bronchitis", new string[] { "Shortness of breath", "Chest discomfort", "Mucus" }),
                     /*Pneumonia*/   new Illnesses("Pneumonia", new string[] { "Chest discomfort", "Fever", "Cough"}),
                     /*Pharyngitis*/ new Illnesses("Pharyngitis", new string[] {"Fever", "Cough", "Sore throat"}),
-                    /*Rhinitis*/    new Illnesses("Rhinitis", new string[] {"Runny nose", "Mucus", "Sneezing"})
+                    /*Rhinitis*/    new Illnesses("Rhinitis", new string[] {"Runny nose", "Mucus", "Sneezing"}),
+                    /*Strep*/       new Illnesses("Strep", new string[] {"Sore throat", "Mucus", "Swollen tonsils"})
                 };
 
             //Adding the objects into the object list:
             illnessList.AddRange(illnessCatalouge); //Adds all values stored in the illnessCatalouge array to the object list, as both are based off of the same class
-
 
             bool playing = true;
             int patientCount = 0;
@@ -242,30 +242,32 @@ namespace MedicalGame
                                         testsLeft--;
                                         break;
                                     }
-                                    else if (userTest == "tongue depressor") //Detects Sore throat, mucus
+                                    else if (userTest == "tongue depressor") //Detects Sore throat, mucus , swollen tonsils
                                     {
                                         amtofTestsDone++;
                                         Console.Clear();
                                         Console.WriteLine("You decide to use the tongue depressor on the patient, say 'ahh!'");
                                         bool isMucus = getSymptom(selectedIllness, "Mucus");
                                         bool isSoreThroat = getSymptom(selectedIllness, "Sore throat");
+                                        bool isSwollenTonsils = getSymptom(selectedIllness, "Swollen tonsils");
                                         if (isSoreThroat)
                                         {
                                             Console.WriteLine("You use the tongue depressor on the patient, you see signs that indicate a sore throat.");
                                             symptomListChecker(knownSymptoms, "Sore throat");
-                                            isSoreThroat = true;
-                                            break;
                                         }
                                         if (isMucus)
                                         {
                                             Console.WriteLine("You use the tongue depressor on the patient, you see signs that indicate a Mucus build-up.");
                                             symptomListChecker(knownSymptoms, "Mucus");
-                                            isMucus = true;
-                                            break;
 
                                         }
+                                        if(isSwollenTonsils)
+                                        {
+                                            Console.WriteLine("You use the tongue depressor on the patient, you see that their tonsils are swollen.");
+                                            symptomListChecker(knownSymptoms, "Swollen tonsils");
+                                        }
                                         //If there were no symptoms shown:
-                                        if (!isMucus && !isSoreThroat)
+                                        if (!isMucus && !isSoreThroat && !isSwollenTonsils)
                                         {
                                             Console.WriteLine("The patient's throat was normal");
                                         }
@@ -530,7 +532,7 @@ namespace MedicalGame
             static bool getSymptom(Illnesses selectedIllness, string illnessToBeChecked) //Called to assign a t/f value to a bool if the patient has that symptom or not
                                                                                          //It does this by checking if the symptom is the same as the one being checked in the method
             {
-                string[] noDotIllnesses = { "Sore throat", "Chest discomfort", "Sneezing" };
+                string[] noDotIllnesses = { "Sore throat", "Chest discomfort", "Sneezing", "Swollen tonsils" };
                 bool isnoDot = false;
                 for(int i = 0; i < noDotIllnesses.Length; i++) //Checks out of the symptoms that shouldnt show dots and if it is that symptom it doesnt show dots bc of the bool
                 {
