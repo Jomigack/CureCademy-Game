@@ -14,7 +14,7 @@ namespace MedicalGame
               \_/    |_|   (_)     /___|  (_)     |_|   
 
 
-    1.2 Update: Rhinitis and Pharyngitis
+    1.2.1 Update: Strep
 
     Last updated 1/12/24
     Check my Github for updates! @ Jomigack
