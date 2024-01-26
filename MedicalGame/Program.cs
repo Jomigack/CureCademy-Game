@@ -8,15 +8,16 @@ namespace MedicalGame
        / __| _  _  _ _  ___     / __| __ _  __| | ___  _ __  | || |
       | (__ | || || '_|/ -_)   | (__ / _` |/ _` |/ -_)| '  \  \_. |
        \___| \_._||_|  \___|    \___|\__/_|\__/_|\___||_|_|_| |__/ 
-            __   __   _             ___            _   
-            \ \ / /  / |           |_  )          / |  
-             \   /   | |    _       / /    _      | |  
-              \_/    |_|   (_)     /___|  (_)     |_|   
+            __   __   _             ___            ___         
+            \ \ / /  / |           |_  )          |_  )        
+             \   /   | |    _       / /    _       / /    _    
+              \_/    |_|   (_)     /___|  (_)     /___|  (_)   
 
 
-    1.2.1 Update: Strep
 
-    Last updated 1/12/24
+    1.2.2. Update: Meningitis
+
+    Last updated 1/26/24
     Check my Github for updates! @ Jomigack
     Repository Link: https://github.com/Jomigack/CureCademy-Game
 
@@ -37,11 +38,12 @@ namespace MedicalGame
             ///Creeating an object example:
             Illnesses[] illnessCatalouge =
             {
+                    /*Bronchitis*/  new Illnesses("Bronchitis", new string[] { "Shortness of breath", "Chest discomfort", "Mucus" }),
                     /*Cold*/        new Illnesses("Cold", new string[] { "Muscle and body aches", "Runny nose", "Sore throat"}),//For the array, you must specify new string[] in order for it to pass through
                     /*flu*/         new Illnesses("Flu", new string[] { "Fever", "Sore throat", "Muscle and body aches" }),
-                    /*Bronchitis*/  new Illnesses("Bronchitis", new string[] { "Shortness of breath", "Chest discomfort", "Mucus" }),
-                    /*Pneumonia*/   new Illnesses("Pneumonia", new string[] { "Chest discomfort", "Fever", "Cough"}),
+                    /*Meningitis*/  new Illnesses("Meningitis", new string[] {"Fever", "Headaches", "Nausea or vomiting"}),
                     /*Pharyngitis*/ new Illnesses("Pharyngitis", new string[] {"Fever", "Cough", "Sore throat"}),
+                    /*Pneumonia*/   new Illnesses("Pneumonia", new string[] { "Chest discomfort", "Fever", "Cough"}),
                     /*Rhinitis*/    new Illnesses("Rhinitis", new string[] {"Runny nose", "Mucus", "Sneezing"}),
                     /*Strep*/       new Illnesses("Strep", new string[] {"Sore throat", "Mucus", "Swollen tonsils"})
                 };
@@ -117,14 +119,16 @@ namespace MedicalGame
                                         underGoingTest = false;
                                         break;
                                     }
-                                    else if (userTest == "ask") //Ask Command, detects colds and muscle aches
+                                    else if (userTest == "ask") //Ask Command, detects colds, headache, nasuea or vomiting and muscle aches
                                     {
                                         amtofTestsDone++;
                                         Console.Clear();
                                         Console.WriteLine("What do you want to ask the patient?");
-                                        string[] askCmds = {"Aches", "Cough" ,"Symptoms"};
+                                        string[] askCmds = {"Aches", "Cough" ,"Headache","Nausea" ,"Symptoms"};
                                         string[] askDesc = {"Ask the patient if they have been experiencing muscle or body aches",
                                             "Ask the patient if they have been coughing recently",
+                                            "Ask the patient if they have been having headaches recently",
+                                            "Ask the patient if they have been nauseous or vomiting recently",
                                             "Ask the patient what general sympotoms they are experiencing (chance of failure)"};
                                         for(int i = 0; i < askCmds.Length; i++) //Prints all possible ask commands from the array
                                         {
@@ -181,6 +185,45 @@ namespace MedicalGame
                                                 else
                                                 {
                                                     Console.WriteLine("The patient states that they have not had muscle and body aches.");
+                                                }
+
+                                                isAsk = false;
+                                                underGoingTest = false;
+                                                break;
+                                            }
+                                            else if (userAsk == "headache")
+                                            {
+                                                //Add code here so when the user has muscle or body aches 
+                                                Console.WriteLine("You ask the patient if they have been having headahces");
+                                                bool isAches = getSymptom(selectedIllness, "Headaches");
+                                                if (isAches)
+                                                {
+                                                    Console.WriteLine("The patient does state that they have been hacing headaches recently");
+                                                    symptomListChecker(knownSymptoms, "Headaches");
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine("The patient states that they have not been having headaches recently.");
+                                                }
+
+                                                isAsk = false;
+                                                underGoingTest = false;
+                                                break;
+                                            }
+                                            else if (userAsk == "nausea")
+                                            {
+                                                //Add code here so when the user has muscle or body aches 
+                                                Console.WriteLine("You ask the patient if they have been nauseaous or vomiting recently");
+                                                bool isVomit = getSymptom(selectedIllness, "Nausea or vomiting");
+                                                if (isVomit)
+                                                {
+                                                    
+                                                    Console.WriteLine("The patient states that they have been Nauseous and vomiting recently.");
+                                                    symptomListChecker(knownSymptoms, "Nausea or vomiting");
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine("The patient states that they have not been Nauseous nor vomiting recently.");
                                                 }
 
                                                 isAsk = false;
