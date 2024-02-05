@@ -8,16 +8,17 @@ namespace MedicalGame
        / __| _  _  _ _  ___     / __| __ _  __| | ___  _ __  | || |
       | (__ | || || '_|/ -_)   | (__ / _` |/ _` |/ -_)| '  \  \_. |
        \___| \_._||_|  \___|    \___|\__/_|\__/_|\___||_|_|_| |__/ 
-            __   __   _             ___            ___         
-            \ \ / /  / |           |_  )          |_  )        
-             \   /   | |    _       / /    _       / /    _    
-              \_/    |_|   (_)     /___|  (_)     /___|  (_)   
+           __   __   _             ___            ____ 
+           \ \ / /  / |           |_  )          |__ / 
+            \   /   | |    _       / /    _       |_ \ 
+             \_/    |_|   (_)     /___|  (_)     |___/ 
 
 
 
-    1.2.2. Update: Meningitis
 
-    Last updated 1/26/24
+    1.2.3. Update: Allergies
+
+    Last updated 2/5/24
     Check my Github for updates! @ Jomigack
     Repository Link: https://github.com/Jomigack/CureCademy-Game
 
@@ -38,6 +39,7 @@ namespace MedicalGame
             ///Creeating an object example:
             Illnesses[] illnessCatalouge =
             {
+                    /*Allergies*/   new Illnesses("Allergies", new string[] {"Sneezing", "Runny nose", "Cough"}),
                     /*Bronchitis*/  new Illnesses("Bronchitis", new string[] { "Shortness of breath", "Chest discomfort", "Mucus" }),
                     /*Cold*/        new Illnesses("Cold", new string[] { "Muscle and body aches", "Runny nose", "Sore throat"}),//For the array, you must specify new string[] in order for it to pass through
                     /*flu*/         new Illnesses("Flu", new string[] { "Fever", "Sore throat", "Muscle and body aches" }),
@@ -47,6 +49,8 @@ namespace MedicalGame
                     /*Rhinitis*/    new Illnesses("Rhinitis", new string[] {"Runny nose", "Mucus", "Sneezing"}),
                     /*Strep*/       new Illnesses("Strep", new string[] {"Sore throat", "Mucus", "Swollen tonsils"})
                 };
+
+
 
             //Adding the objects into the object list:
             illnessList.AddRange(illnessCatalouge); //Adds all values stored in the illnessCatalouge array to the object list, as both are based off of the same class
@@ -359,6 +363,10 @@ namespace MedicalGame
                                         {
                                             Console.WriteLine("While inspecting the patient's nose, he sneezes in the middle of the inspection, you note this as them sneezing");
                                             symptomListChecker(knownSymptoms, "Sneezing");
+                                        }
+                                        if(!isRunny && !isSneezing)
+                                        {
+                                            Console.WriteLine("You inspect the patients nostrils and don't see anything abnormal.");
                                         }
                                         testsLeft--;
                                         break;
